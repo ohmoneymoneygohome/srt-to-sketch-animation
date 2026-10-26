@@ -1,0 +1,40 @@
+/* Bundled from joeseesun/qiaomu-cover-fonts. Keep the font files local so
+   previews work offline and the subtitle renderer can use the same families. */
+@font-face{font-family:"Noto Sans SC";src:url("/qiaomu-cover-fonts/fonts/notosans.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Sans SC";src:url("/qiaomu-cover-fonts/fonts/notosans-bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Sans SC";src:url("/qiaomu-cover-fonts/fonts/notosans-heavy.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Sans SC Bold";src:url("/qiaomu-cover-fonts/fonts/notosans-bold.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Sans SC Black";src:url("/qiaomu-cover-fonts/fonts/notosans-heavy.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Serif SC";src:url("/qiaomu-cover-fonts/fonts/notoserif.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Serif SC";src:url("/qiaomu-cover-fonts/fonts/notoserif-bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Serif SC";src:url("/qiaomu-cover-fonts/fonts/notoserif-heavy.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Serif SC Bold";src:url("/qiaomu-cover-fonts/fonts/notoserif-bold.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Serif SC Black";src:url("/qiaomu-cover-fonts/fonts/notoserif-heavy.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Zhuque Fangsong";src:url("/qiaomu-cover-fonts/fonts/zhuque.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"LXGW WenKai";src:url("/qiaomu-cover-fonts/fonts/wenkai.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Smiley Sans";src:url("/qiaomu-cover-fonts/fonts/smiley.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Douyin Sans";src:url("/qiaomu-cover-fonts/fonts/douyin.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Glow Sans SC Heavy";src:url("/qiaomu-cover-fonts/fonts/glow.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"ZCOOL QingKe HuangYou";src:url("/qiaomu-cover-fonts/fonts/huangyou.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"ZCOOL KuaiLe";src:url("/qiaomu-cover-fonts/fonts/kuaile.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"JiangCheng YuanTi";src:url("/qiaomu-cover-fonts/fonts/jiangcheng.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Maoken Assorted Sans";src:url("/qiaomu-cover-fonts/fonts/maoken.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Tiejili SC";src:url("/qiaomu-cover-fonts/fonts/tiejili.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Ma Shan Zheng";src:url("/qiaomu-cover-fonts/fonts/mashan.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Zhi Mang Xing";src:url("/qiaomu-cover-fonts/fonts/zhimang.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Fusion Pixel";src:url("/qiaomu-cover-fonts/fonts/pixel.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url("/qiaomu-cover-fonts/fonts/inter.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url("/qiaomu-cover-fonts/fonts/inter-bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("/qiaomu-cover-fonts/fonts/spacegrotesk.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Bricolage Grotesque";src:url("/qiaomu-cover-fonts/fonts/bricolage.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Unbounded";src:url("/qiaomu-cover-fonts/fonts/unbounded.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Anton";src:url("/qiaomu-cover-fonts/fonts/anton.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Bebas Neue";src:url("/qiaomu-cover-fonts/fonts/bebas.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Archivo Black";src:url("/qiaomu-cover-fonts/fonts/archivoblack.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"DM Serif Display";src:url("/qiaomu-cover-fonts/fonts/dmserif.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("/qiaomu-cover-fonts/fonts/fraunces.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("/qiaomu-cover-fonts/fonts/instrument.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("/qiaomu-cover-fonts/fonts/instrument-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url("/qiaomu-cover-fonts/fonts/cormorant.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("/qiaomu-cover-fonts/fonts/jetbrains.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Caveat";src:url("/qiaomu-cover-fonts/fonts/caveat.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}

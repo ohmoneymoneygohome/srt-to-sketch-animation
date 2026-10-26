@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SRT 白板动画 · 项目初始化</title>
+  <style>
+    :root { --ink:#23302b; --muted:#718078; --paper:#f5f0e7; --card:#fffdf8; --line:#ded8cc; --accent:#426b58; --ok:#397a54; --bad:#a74f44; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.6 system-ui, -apple-system, "Microsoft YaHei", sans-serif; }
+    main { max-width:1040px; margin:0 auto; padding:48px 24px 72px; }
+    header { display:flex; justify-content:space-between; gap:20px; align-items:flex-end; margin-bottom:28px; }
+    h1 { margin:0 0 6px; font-size:30px; letter-spacing:.02em; }
+    h2 { font-size:18px; margin:0 0 16px; }
+    p { margin:5px 0; color:var(--muted); }
+    .badge { border:1px solid #c5d4c9; color:var(--accent); border-radius:99px; padding:5px 11px; background:#edf5ef; white-space:nowrap; }
+    .grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:18px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:0 6px 20px #72654b0d; }
+    .full { grid-column:1/-1; }
+    label { display:block; margin:12px 0 5px; font-weight:600; }
+    input, select { width:100%; border:1px solid #cbc5b9; border-radius:8px; padding:10px 11px; font:inherit; background:#fff; color:var(--ink); }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    button { border:0; border-radius:8px; padding:10px 14px; cursor:pointer; font:inherit; background:var(--accent); color:white; }
+    button.secondary { background:#e9eee9; color:var(--accent); }
+    button:disabled { opacity:.55; cursor:wait; }
+    .actions { display:flex; gap:9px; flex-wrap:wrap; margin-top:16px; }
+    .status { margin-top:12px; min-height:24px; color:var(--muted); }
+    .status.ok { color:var(--ok); } .status.bad { color:var(--bad); }
+    .test-result { white-space:pre-wrap; overflow-wrap:anywhere; margin:10px 0 0; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:#f8f6f0; color:var(--ink); font:13px/1.5 ui-monospace,Consolas,monospace; }
+    .notice { border-left:4px solid #c38d43; padding:10px 13px; background:#fff8e9; color:#765528; border-radius:5px; }
+    code { background:#f0ece4; padding:2px 5px; border-radius:4px; }
+    ol { margin:8px 0 0 22px; color:var(--muted); }
+    textarea { width:100%; min-height:170px; margin-top:12px; padding:12px; border:1px solid var(--line); border-radius:8px; background:#faf8f2; color:var(--ink); font:13px/1.6 ui-monospace, Consolas, monospace; resize:vertical; }
+    @media (max-width:760px) { .grid,.row { grid-template-columns:1fr; } header { display:block; } .badge { display:inline-block; margin-top:12px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1>SRT → 白板手绘动画</h1><p>项目初始化与环境检测</p></div>
+    <span class="badge">第 1 阶段 · 不产生 API 费用</span>
+  </header>
+  <div class="notice">请先填写并测试两套 API。密钥只保存到本机的 <code>config.local.json</code>，不会写入开源代码仓库。</div>
+  <section class="grid" style="margin-top:18px">
+    <div class="card">
+      <h2>文本理解 API</h2><p>SRT 校验、拆幕、分镜描述与绘制策略。</p>
+      <label>API Key</label><input id="textKey" type="password" placeholder="sk-..." autocomplete="off"><small id="textKeyState" class="status">未读取</small>
+      <div class="row"><div><label>Base URL</label><input id="textBase" placeholder="https://api.openai.com"></div><div><label for="textModel">模型名称（也可手动填写）</label><input id="textModel" placeholder="先读取模型列表或手动填写"></div></div>
+      <div class="actions"><button class="secondary" onclick="loadTextModels()">读取模型列表</button><span id="textModelsStatus" class="status"></span></div>
+      <label for="textModelList">接口返回的模型</label><select id="textModelList" onchange="selectTextModel()"><option value="">请先读取模型列表</option></select>
+      <div class="actions"><button onclick="testTextHello()">发送 hello 测试</button><span id="textStatus" class="status"></span></div>
+      <pre id="textTestResult" class="test-result" hidden></pre>
+    </div>
+    <div class="card">
+      <h2>画面生成 API</h2><p>静态分镜与指定分镜的局部重生成。</p>
+      <label>API Key</label><input id="imageKey" type="password" placeholder="sk-..." autocomplete="off"><small id="imageKeyState" class="status">未读取</small>
+      <div class="row"><div><label>Base URL</label><input id="imageBase" placeholder="https://api.openai.com"></div><div><label>模型</label><input id="imageModel" placeholder="gpt-image-1"></div></div>
+      <div class="actions"><button onclick="testApi('image')">测试画面 API</button><span id="imageStatus" class="status"></span></div>
+    </div>
+    <div class="card full">
+      <h2>本地 FFmpeg 环境</h2><p>项目只调用本机 FFmpeg，不内置、不自动安装。</p>
+      <div id="ffmpegStatus" class="status">正在检测…</div>
+      <div class="actions"><button class="secondary" onclick="checkFfmpeg()">重新检测</button><button class="secondary" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'})">查看安装说明</button></div>
+    </div>
+    <div class="card full">
+      <h2>进入工作流</h2><p>环境配置完成后，进入业务设置与 SRT 处理页面。</p>
+      <div class="actions"><button onclick="saveAndEnterWorkflow()">保存环境配置并进入工作流</button><span id="saveStatus" class="status"></span></div>
+    </div>
+    <div id="install" class="card full">
+      <h2>FFmpeg 安装提示</h2>
+      <ol><li>Windows：安装 FFmpeg，并把 <code>bin</code> 目录加入系统 PATH。</li><li>macOS：可使用 Homebrew 安装 FFmpeg。</li><li>Linux：使用系统包管理器安装 FFmpeg。</li><li>重新打开终端后运行 <code>ffmpeg -version</code> 与 <code>ffprobe -version</code> 验证。</li></ol>
+      <p style="margin-top:14px">如果已安装但仍显示未找到，先点“重新检测”；若仍未识别，请重启本地工作流服务，让它重新读取系统 PATH。</p>
+      <label for="aiWorkPrompt">复制下面的提示词，发给 AI Work 帮你检查和安装：</label>
+      <textarea id="aiWorkPrompt" readonly>请帮我在这台 Windows 电脑上检查并配置 FFmpeg，供本地视频工作流调用。先检查 ffmpeg 和 ffprobe 是否已安装、当前终端能否通过 PATH 找到，以及用户/系统 PATH 中是否包含它们所在的 bin 目录。若已安装但 PATH 未生效，请指出具体原因并在获得必要授权后再修改；若未安装，优先使用本机已有且可信的包管理器安装，或指导我从 FFmpeg 官方可信来源获取，不要下载来历不明的二进制。不要修改我的项目文件、视频素材或 API 配置，不要读取或输出任何 API Key。完成后请验证并给出 ffmpeg -version、ffprobe -version 的结果，以及需要重启哪些终端/本地服务才能让应用检测到。</textarea>
+      <div class="actions"><button class="secondary" onclick="copyAiWorkPrompt()">复制给 AI Work</button><span id="copyPromptStatus" class="status"></span></div>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+function setStatus(id, text, ok=null) { const el=$(id); el.textContent=text; el.className='status'+(ok===true?' ok':ok===false?' bad':''); }
+function apiPayload(kind) {
+  return { api_key: $(kind+'Key').value.trim(), base_url: $(kind+'Base').value.trim(), model: $(kind+'Model').value.trim() };
+}
+async function testApi(kind) {
+  const button=document.activeElement; if(button instanceof HTMLButtonElement) button.disabled=true;
+  setStatus(kind+'Status','测试中…');
+  try { const r=await fetch('/api/test-'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiPayload(kind))}); const d=await r.json(); setStatus(kind+'Status',d.ok?'连接成功':('连接失败：'+d.message),d.ok); }
+  catch(e){ setStatus(kind+'Status','连接失败：'+e.message,false); } finally { if(button instanceof HTMLButtonElement) button.disabled=false; }
+}
+async function loadTextModels() {
+  const button=document.activeElement;
+  if(button instanceof HTMLButtonElement) button.disabled=true;
+  setStatus('textModelsStatus','正在读取模型列表…');
+  try {
+    const response=await fetch('/api/text-models',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiPayload('text'))});
+    const data=await response.json();
+    if(!data.ok) throw new Error(data.message||`请求失败（HTTP ${response.status}）`);
+    const select=$('textModelList'),current=$('textModel').value.trim();
+    select.replaceChildren(new Option('请选择模型',''),...data.models.map(model=>new Option(model,model)));
+    if(data.models.includes(current)) select.value=current;
+    setStatus('textModelsStatus',`读取成功：${data.models.length} 个模型，请选择后发送 hello 测试。`,true);
+  } catch(error) {
+    setStatus('textModelsStatus',`读取失败：${error.message}`,false);
+  } finally {
+    if(button instanceof HTMLButtonElement) button.disabled=false;
+  }
+}
+function selectTextModel() {
+  const model=$('textModelList').value;
+  if(model) $('textModel').value=model;
+}
+async function testTextHello() {
+  const model=$('textModel').value.trim();
+  const result=$('textTestResult');
+  result.hidden=false;
+  result.textContent='正在向聊天接口发送 hello…';
+  setStatus('textStatus','测试中…');
+  const button=document.activeElement;
+  if(button instanceof HTMLButtonElement) button.disabled=true;
+  try {
+    const response=await fetch('/api/test-text',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...apiPayload('text'),model})});
+    const data=await response.json();
+    if(!data.ok) throw new Error(data.message||`请求失败（HTTP ${response.status}）`);
+    const usage=data.usage&&Object.keys(data.usage).length?`\n用量：${JSON.stringify(data.usage)}`:'';
+    result.textContent=`模型：${data.model||model}\n发送：hello\n回复：${data.reply||'（空回复）'}${usage}`;
+    setStatus('textStatus','聊天接口测试成功',true);
+  } catch(error) {
+    result.textContent=`模型：${model||'未选择'}\n发送：hello\n错误：${error.message}`;
+    setStatus('textStatus','聊天接口测试失败',false);
+  } finally {
+    if(button instanceof HTMLButtonElement) button.disabled=false;
+  }
+}
+async function checkFfmpeg() {
+  const d=await (await fetch('/api/ffmpeg')).json();
+  setStatus('ffmpegStatus', d.ready ? `已就绪 · ffmpeg：${d.ffmpeg.path} · ffprobe：${d.ffprobe.path}` : `未就绪 · ffmpeg ${d.ffmpeg.installed?'已找到':'未找到'}，ffprobe ${d.ffprobe.installed?'已找到':'未找到'}`, d.ready);
+}
+async function copyAiWorkPrompt() {
+  const text=$('aiWorkPrompt').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    setStatus('copyPromptStatus','已复制，可以粘贴给 AI Work。',true);
+  } catch(e) {
+    $('aiWorkPrompt').focus(); $('aiWorkPrompt').select();
+    setStatus('copyPromptStatus','浏览器未允许自动复制，已选中文本；按 Ctrl+C 复制。');
+  }
+}
+async function saveConfig() {
+  const current=await (await fetch('/api/config')).json();
+  const payload={text_api:apiPayload('text'),image_api:apiPayload('image'),preferences:current.preferences||{}};
+  const d=await (await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json();
+  setStatus('saveStatus',d.message,d.ok);
+}
+let autoSaveTimer;
+function queueConfigSave(){clearTimeout(autoSaveTimer);setStatus('saveStatus','配置将自动保存…');autoSaveTimer=setTimeout(()=>saveConfig().catch(e=>setStatus('saveStatus','自动保存失败：'+e.message,false)),500)}
+async function saveAndEnterWorkflow() {
+  await saveConfig();
+  const status=$('saveStatus');
+  if(status.classList.contains('ok')) window.location.href='/workflow.html';
+}
+async function loadConfig() {
+  const d=await (await fetch('/api/config')).json();
+  for(const kind of ['text','image']) { const s=d[kind+'_api']||{}; $(kind+'Base').value=s.base_url||''; $(kind+'Model').value=s.model||''; $(kind+'KeyState').textContent=s.api_key_configured?'已保存到本机（留空将保持现有 Key）':'尚未保存'; $(kind+'KeyState').className='status '+(s.api_key_configured?'ok':''); }
+  checkFfmpeg();
+}
+loadConfig();
+document.querySelectorAll('#textBase,#textModel,#textKey,#imageBase,#imageModel,#imageKey').forEach(el=>{el.addEventListener('input',queueConfigSave);el.addEventListener('change',queueConfigSave)});
+</script>
+</body>
+</html>

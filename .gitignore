@@ -1,0 +1,30 @@
+# Local configuration and credentials
+config.local.json
+.env
+.env.*
+!.env.example
+
+# User projects and generated media
+projects/
+output/
+exports/
+*.mp4
+*.mov
+*.wav
+*.mp3
+
+# Python and editor artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary preview files
+tmp_*.jpg
+tmp_*.png
+*.tmp

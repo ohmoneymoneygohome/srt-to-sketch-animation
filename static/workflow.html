@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SRT 白板动画 · 工作流设置</title>
+  <script>location.replace('/subtitle.html?step=settings');</script>
+  <style>
+    :root{--ink:#23302b;--muted:#718078;--paper:#f5f0e7;--card:#fffdf8;--line:#ded8cc;--accent:#426b58;--ok:#397a54}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Microsoft YaHei",sans-serif}
+    main{max-width:1040px;margin:0 auto;padding:48px 24px 72px}header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px}
+    h1{margin:0 0 6px;font-size:30px}h2{font-size:18px;margin:0 0 12px}p{margin:5px 0;color:var(--muted)}
+    .badge{border:1px solid #c5d4c9;color:var(--accent);border-radius:99px;padding:5px 11px;background:#edf5ef}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:18px;box-shadow:0 6px 20px #72654b0d}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;margin:12px 0 5px;font-weight:600}
+    input,select{width:100%;border:1px solid #cbc5b9;border-radius:8px;padding:10px 11px;font:inherit;background:#fff;color:var(--ink)}
+    input[type=checkbox]{width:auto}button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font:inherit;background:var(--accent);color:#fff}
+    button.secondary{background:#e9eee9;color:var(--accent)}.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:16px}
+    .status{color:var(--muted);min-height:24px}.status.ok{color:var(--ok)}
+    @media(max-width:760px){.row{grid-template-columns:1fr}header{display:block}.badge{display:inline-block;margin-top:12px}}
+  </style>
+</head>
+<body><main>
+  <header><div><h1>SRT → 白板手绘动画</h1><p>业务工作流设置</p></div><span class="badge">第 2 阶段 · 业务逻辑</span></header>
+  <div class="card">
+    <h2>画面与时间基准</h2><p>这些设置只影响当前工作流，不属于环境初始化。</p>
+    <div class="row"><div><label>画面比例</label><select id="ratio"><option value="16:9">16:9</option><option value="9:16">9:16</option><option value="1:1">1:1</option></select></div><div><label>默认帧率</label><select id="fps"><option value="60">60 fps</option><option value="30">30 fps</option></select></div></div>
+  </div>
+  <div class="card">
+    <h2>SRT 拆幕设置</h2><p>标题行生成纯文字标题分镜；时间戳、时长、连续手绘动画和合并校验与普通分镜一致，不额外插入时长。</p>
+    <label style="display:flex;align-items:center;gap:9px"><input id="titleRecognition" type="checkbox"> 开启标题行识别</label>
+    <div class="row"><div><label>标题识别依据</label><select id="titleBasis"><option value="validation_first">优先参考校验稿</option><option value="srt_only">仅根据 SRT 判断</option><option value="manual">识别后全部人工确认</option></select></div><div><label>标题页样式</label><select id="titleStyle"><option value="minimal">极简纯文字</option><option value="center">居中标题</option><option value="chapter">章节标题</option></select></div></div>
+    <p style="margin-top:12px">无法确认的标题条目进入人工处理列表；标题页不改变整个视频时间轴。</p>
+  </div>
+  <div class="card"><h2>保存工作流设置</h2><p>保存后进入项目中心，选择历史项目或新建项目。</p><div class="actions"><button onclick="saveWorkflow()">保存并进入项目中心</button><button class="secondary" onclick="location.href='/projects.html'">项目中心</button><button class="secondary" onclick="location.href='/'">返回环境初始化</button><span id="status" class="status"></span></div></div>
+</main>
+<script>
+// 兼容旧书签：工作流设置已合并到项目工作台的“本项目设置”。
+// 保留本页源码以便旧配置页面平滑迁移，不再作为新的入口。
+const $=id=>document.getElementById(id);
+async function load(){const d=await (await fetch('/api/config')).json(),p=d.preferences||{};$('ratio').value=p.ratio||'16:9';$('fps').value=String(p.fps||60);$('titleRecognition').checked=Boolean(p.title_recognition);$('titleBasis').value=p.title_basis||'validation_first';$('titleStyle').value=p.title_style||'minimal'}
+async function saveWorkflow(){const d=await (await fetch('/api/config')).json();const payload={text_api:d.text_api||{},image_api:d.image_api||{},preferences:{ratio:$('ratio').value,fps:Number($('fps').value),title_recognition:$('titleRecognition').checked,title_basis:$('titleBasis').value,title_style:$('titleStyle').value,title_timing_mode:'same_as_scene',title_animation_mode:'same_as_scene_continuous_drawing'}};const r=await (await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json();$('status').textContent=r.message;$('status').className='status'+(r.ok?' ok':'');if(r.ok)setTimeout(()=>location.href='/projects.html',400)}
+load();
+</script></body></html>
